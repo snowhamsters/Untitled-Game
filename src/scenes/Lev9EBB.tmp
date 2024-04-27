@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://dyj65rkmx53c2"]
+
+[ext_resource type="Script" path="res://src/scripts/Level.gd" id="1_11k8s"]
+[ext_resource type="Texture2D" uid="uid://csfpyfbobhr0f" path="res://icon.svg" id="2_jangh"]
+[ext_resource type="Script" path="res://src/scripts/Player.gd" id="2_sa2oy"]
+[ext_resource type="Texture2D" uid="uid://dayyows76p0n0" path="res://assets/textures/light_point.png" id="5_vo514"]
+[ext_resource type="Script" path="res://src/scripts/AmbientLight.gd" id="5_xxket"]
+[ext_resource type="Texture2D" uid="uid://bt68ueqbeest1" path="res://assets/textures/light_cone.png" id="7_vjc1p"]
+[ext_resource type="Script" path="res://src/scripts/FlashLight.gd" id="8_kq0wo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l8iht"]
+radius = 6.5
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_11k8s")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("2_sa2oy")
+speed = 100
+friction = 0.5
+acceleration = 0.5
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(4, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_l8iht")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+light_mask = 2
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_jangh")
+
+[node name="AmbientLight" type="PointLight2D" parent="Player"]
+range_item_cull_mask = 3
+shadow_enabled = true
+texture = ExtResource("5_vo514")
+texture_scale = 0.25
+script = ExtResource("5_xxket")
+
+[node name="FlashLight" type="PointLight2D" parent="Player"]
+rotation = -1.5708
+shadow_enabled = true
+texture = ExtResource("7_vjc1p")
+offset = Vector2(-1, 78)
+texture_scale = 0.5
+script = ExtResource("8_kq0wo")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 1)

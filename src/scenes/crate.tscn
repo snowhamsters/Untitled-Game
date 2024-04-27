@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpg813sk2makr"]
+
+[ext_resource type="Texture2D" uid="uid://v0irwhvvkyjm" path="res://assets/textures/crate.png" id="1_fay78"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ban0"]
+size = Vector2(64, 64)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_jxycf"]
+polygon = PackedVector2Array(28, -28, 28, 28, -28, 28, -28, -28)
+
+[node name="Crate" type="RigidBody2D"]
+mass = 5.0
+gravity_scale = 0.0
+linear_damp = 15.0
+angular_damp = 15.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fay78")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3ban0")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_jxycf")

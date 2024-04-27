@@ -1,0 +1,187 @@
+[gd_scene load_steps=21 format=3 uid="uid://dyj65rkmx53c2"]
+
+[ext_resource type="Script" path="res://src/scripts/level.gd" id="1_ughpc"]
+[ext_resource type="Script" path="res://src/scripts/player.gd" id="2_tg14d"]
+[ext_resource type="Script" path="res://src/scripts/level_enemies.gd" id="3_4uo87"]
+[ext_resource type="Script" path="res://src/scripts/menu.gd" id="3_be7pa"]
+[ext_resource type="Texture2D" uid="uid://dwqpwkcrneg86" path="res://assets/tilesets/tileset1.png" id="3_c3ak5"]
+[ext_resource type="Texture2D" uid="uid://csfpyfbobhr0f" path="res://icon.svg" id="3_y0wnq"]
+[ext_resource type="TileSet" uid="uid://b3l2350c5b62t" path="res://src/resources/tileset1.tres" id="4_0kl3m"]
+[ext_resource type="Script" path="res://src/scripts/level_generation.gd" id="4_cleq5"]
+[ext_resource type="Script" path="res://src/scripts/elevator.gd" id="4_voryv"]
+[ext_resource type="Texture2D" uid="uid://dayyows76p0n0" path="res://assets/textures/light_point.png" id="4_wxtlf"]
+[ext_resource type="Script" path="res://src/scripts/level_light.gd" id="4_xuhfj"]
+[ext_resource type="Script" path="res://src/scripts/ambient_light.gd" id="5_clwxl"]
+[ext_resource type="Texture2D" uid="uid://bt68ueqbeest1" path="res://assets/textures/light_cone.png" id="6_sndef"]
+[ext_resource type="Script" path="res://src/scripts/flashlight.gd" id="7_j2r00"]
+[ext_resource type="Shader" path="res://src/shaders/quantize_dither.gdshader" id="10_clanx"]
+[ext_resource type="AudioStream" uid="uid://cys2hnaubln8" path="res://assets/sound/sfx/push_crate.wav" id="14_8odmt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l8iht"]
+radius = 26.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ognxa"]
+shader = ExtResource("10_clanx")
+shader_parameter/dithering = true
+shader_parameter/change_color_depth = true
+shader_parameter/target_color_depth = 5
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6j8jf"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_3xqqx"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_ughpc")
+
+[node name="LevelFloor" type="TextureRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.0784314, 0.0784314, 0.0784314, 1)
+z_index = -1
+offset_right = 128.0
+offset_bottom = 32.0
+texture = ExtResource("3_c3ak5")
+stretch_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="LevelFloor"]
+visible = false
+layout_mode = 0
+
+[node name="LevelTileMap" type="TileMap" parent="."]
+unique_name_in_owner = true
+tile_set = ExtResource("4_0kl3m")
+format = 2
+
+[node name="LevelGeneration" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_cleq5")
+
+[node name="LevelLights" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_xuhfj")
+
+[node name="LightTimer" type="Timer" parent="LevelLights"]
+one_shot = true
+
+[node name="FreeLightsTimer" type="Timer" parent="LevelLights"]
+one_shot = true
+
+[node name="EvilTimer" type="Timer" parent="LevelLights"]
+one_shot = true
+
+[node name="BlackoutSound" type="AudioStreamPlayer" parent="LevelLights"]
+
+[node name="LevelEnemies" type="Node2D" parent="."]
+script = ExtResource("3_4uo87")
+
+[node name="SafeTimer" type="Timer" parent="LevelEnemies"]
+one_shot = true
+
+[node name="EnemySpawnTimer" type="Timer" parent="LevelEnemies"]
+
+[node name="Elevator" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_voryv")
+
+[node name="ProgressBar" type="ProgressBar" parent="Elevator"]
+offset_left = -40.0
+offset_top = -50.0
+offset_right = 40.0
+offset_bottom = -30.0
+show_percentage = false
+
+[node name="Player" type="CharacterBody2D" parent="."]
+unique_name_in_owner = true
+motion_mode = 1
+script = ExtResource("2_tg14d")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_l8iht")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+light_mask = 2
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_y0wnq")
+
+[node name="AmbientLight" type="PointLight2D" parent="Player"]
+range_item_cull_mask = 3
+texture = ExtResource("4_wxtlf")
+script = ExtResource("5_clwxl")
+
+[node name="FlashLight" type="PointLight2D" parent="Player"]
+rotation = -1.5708
+shadow_enabled = true
+texture = ExtResource("6_sndef")
+offset = Vector2(-4, 295)
+texture_scale = 2.0
+script = ExtResource("7_j2r00")
+
+[node name="Label" type="Label" parent="Player"]
+offset_left = 50.0
+offset_top = -25.0
+offset_right = 150.0
+offset_bottom = -2.0
+
+[node name="Label2" type="Label" parent="Player"]
+offset_left = 50.0
+offset_right = 150.0
+offset_bottom = 23.0
+
+[node name="PushCrateSound" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource("14_8odmt")
+volume_db = -20.0
+max_distance = 100.0
+bus = &"SFX"
+
+[node name="Darkness" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 1)
+
+[node name="PostProcessing" type="CanvasLayer" parent="."]
+
+[node name="QuantizeDither" type="ColorRect" parent="PostProcessing"]
+material = SubResource("ShaderMaterial_ognxa")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EscapeMenu" type="CanvasLayer" parent="."]
+process_mode = 3
+visible = false
+script = ExtResource("3_be7pa")
+
+[node name="ColorRect" type="ColorRect" parent="EscapeMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.117647)
+
+[node name="LoadingScreen" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="ColorRect" type="ColorRect" parent="LoadingScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+stream = SubResource("AudioStreamRandomizer_6j8jf")
+bus = &"Music"
+
+[node name="RandomAmbience" type="AudioStreamPlayer2D" parent="Audio"]
+stream = SubResource("AudioStreamRandomizer_3xqqx")
+bus = &"Ambience"
+
+[connection signal="timeout" from="LevelLights/LightTimer" to="LevelLights" method="_on_light_timer_timeout"]
+[connection signal="timeout" from="LevelLights/FreeLightsTimer" to="LevelLights" method="_on_free_lights_timer_timeout"]
+[connection signal="timeout" from="LevelEnemies/SafeTimer" to="LevelEnemies" method="_on_safe_timer_timeout"]
+[connection signal="timeout" from="LevelEnemies/EnemySpawnTimer" to="LevelEnemies" method="_on_enemy_spawn_timer_timeout"]

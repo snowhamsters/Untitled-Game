@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyj65rkmx53c2"]
+
+[ext_resource type="Script" path="res://src/scripts/Level.gd" id="1_11k8s"]
+[ext_resource type="PackedScene" uid="uid://dfvxyx50bw2p1" path="res://assets/rooms/H1/H1N.tscn" id="2_hfub6"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_11k8s")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.25, 0.25)
+
+[node name="H1a" parent="." instance=ExtResource("2_hfub6")]
+position = Vector2(792, -72)

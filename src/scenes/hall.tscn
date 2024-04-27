@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://dks54gb8ybjh8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kboml"]
+size = Vector2(160, 320)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6skqq"]
+size = Vector2(160, 480)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7gvuh"]
+size = Vector2(160, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m8c1r"]
+size = Vector2(320, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ic4u5"]
+size = Vector2(480, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6j4n1"]
+size = Vector2(160, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0vthf"]
+size = Vector2(160, 480)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pf0v8"]
+size = Vector2(160, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1l32j"]
+size = Vector2(160, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8p1j"]
+size = Vector2(160, 160)
+
+[node name="Hall" type="Node2D"]
+
+[node name="H1Spawns1" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -80)
+shape = SubResource("RectangleShape2D_kboml")
+disabled = true
+
+[node name="H2sSpawns1" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_6skqq")
+disabled = true
+
+[node name="H2cSpawns1" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -160)
+shape = SubResource("RectangleShape2D_7gvuh")
+disabled = true
+
+[node name="H2cSpawns2" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(80, 0)
+shape = SubResource("RectangleShape2D_m8c1r")
+disabled = true
+
+[node name="H3Spawns1" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_ic4u5")
+disabled = true
+
+[node name="H3Spawns2" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 160)
+shape = SubResource("RectangleShape2D_6j4n1")
+disabled = true
+
+[node name="H4Spawns1" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_0vthf")
+disabled = true
+
+[node name="H4Spawns2" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(160, 0)
+shape = SubResource("RectangleShape2D_pf0v8")
+disabled = true
+
+[node name="H4Spawns3" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-160, 0)
+shape = SubResource("RectangleShape2D_1l32j")
+disabled = true
+
+[node name="HallLightSpawn1" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_x8p1j")

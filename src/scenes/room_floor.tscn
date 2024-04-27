@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2b8h8x6cu8g6"]
+
+[ext_resource type="Texture2D" uid="uid://dwqpwkcrneg86" path="res://assets/tilesets/tileset1.png" id="1_iwpyi"]
+
+[node name="RoomFloor" type="Node2D"]
+z_index = -1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.196078, 0, 0, 1)
+offset_left = -192.0
+offset_top = -192.0
+offset_right = 192.0
+offset_bottom = 192.0
+texture = ExtResource("1_iwpyi")
+stretch_mode = 1

@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3 uid="uid://cedu1ywkl3x3v"]
+
+[ext_resource type="Texture2D" uid="uid://dayyows76p0n0" path="res://assets/textures/light_point.png" id="1_8eto4"]
+[ext_resource type="Texture2D" uid="uid://bmpn0ykn2ak0t" path="res://assets/textures/ceiling_light.png" id="1_lc478"]
+[ext_resource type="AudioStream" uid="uid://y3iuto27lbds" path="res://assets/sound/sfx/fluorescent_light.wav" id="3_ep5vp"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ct4vs"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="Curve" id="Curve_y7kir"]
+max_value = 100.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4yxng"]
+curve = SubResource("Curve_y7kir")
+
+[sub_resource type="Curve" id="Curve_a0ior"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.303136, 0.301273), 0.0, 0.0, 0, 0, Vector2(0.599303, 0.696605), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_hn7cx"]
+curve = SubResource("Curve_a0ior")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wg1t2"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 7.0
+initial_velocity_max = 10.0
+orbit_velocity_min = -0.1
+orbit_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+damping_min = 1.0
+damping_max = 1.0
+damping_curve = SubResource("CurveTexture_4yxng")
+scale_min = 0.03
+scale_max = 0.05
+scale_curve = SubResource("CurveTexture_hn7cx")
+
+[node name="Light" type="Sprite2D"]
+light_mask = 2
+z_index = 1
+texture = ExtResource("1_lc478")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+range_item_cull_mask = 7
+texture = ExtResource("1_8eto4")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = -1
+material = SubResource("CanvasItemMaterial_ct4vs")
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_wg1t2")
+texture = ExtResource("1_8eto4")
+lifetime = 6.0
+randomness = 0.25
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ep5vp")
+volume_db = -2.0
+autoplay = true
+max_distance = 400.0
+bus = &"Ambience"
